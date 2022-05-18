@@ -22,3 +22,51 @@ Debian friendly, namely by using the sid kernel source to build the updated kern
 * Installed the latest [sof-bin](https://github.com/thesofproject/sof-bin) binaries and topologies.
 * Added a script to set basic ALSA values to get input and output working at resonable levels.
 * Added a script to fix pulseaudio to properly detect the device and use it.
+
+## Installation
+These instructions were tested on Debian 10 (buster). This might work for other versions (bullseye) or Debian derivs (mint, ubuntu, etc), but YMMV.
+
+1. Install some packages you'll need for installation:
+
+   ```
+   sudo apt-get install git rsync
+   ```
+2. Clone the [sof-bin](https://github.com/thesofproject/sof-bin) repository:
+   
+   ```
+   git clone https://github.com/thesofproject/sof-bin
+   ```
+3. Install the SOF firmware and topologies:
+   
+   ```
+   cd sof-bin
+   sudo ./install.sh v2.1.x/v2.1.1
+   ```
+4. Clone this repository:
+
+   ```
+   cd ..
+   git clone https://github.com/gnickm/sof-essx8336-debian-fix
+   ```
+5. Install the new kernel:
+
+   ```
+   cd sof-essx8336-debian-fix
+   sudo dpkg -i ./linux*
+   ```
+6. Reboot into the new kernel:
+
+   ```
+   sudo shutdown -r now
+   ```
+7. Set some legit ASLA levels using the provided script:
+
+   ```
+   cd sof-essx8336-debian-fix
+   ./setup-alsa.sh
+   ```
+8. If you're using pulseaudio, make it use the ESSX8336 as the default device:
+
+   ```
+   ./setup-pulseaudio.sh
+   ```
