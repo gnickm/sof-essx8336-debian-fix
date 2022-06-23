@@ -18,11 +18,17 @@ Most of the fixes came courtesy of [yangxiaohua2009](https://github.com/yangxiao
 hardware) in the repo [custom-kernel](https://github.com/yangxiaohua2009/custom-kernel). I have tweaked them a bit to make them a little more
 Debian friendly, namely by using the sid kernel source to build the updated kernel. Here are the details of what worked:
 
-* Built and packaged the latest sid kernel (5.17.6) with the `CONFIG_SND_SOC_INTEL_SOF_ES8336_MACH=m` config parameter enabled.
+* Built and packaged the latest sid kernel (5.18.5) with the `CONFIG_SND_SOC_INTEL_SOF_ES8336_MACH=m` config parameter enabled.
 * Installed the latest [sof-bin](https://github.com/thesofproject/sof-bin) binaries and topologies.
 * Installed the replacement topologies to enable ESSX8336.
 * Added a script to set basic ALSA values to get input and output working at resonable levels.
 * Added a script to fix pulseaudio to properly detect the device and use it.
+
+## Known Issues
+It appears that although this fix enables the ESSX8336 module and makes it available, the sof binaries are still not up-to-date enough to support some board
+implementations. If you see the message `ASoC: Parent card not yet available, widget card binding deferred` in your kernel logs, this means your particular
+board implementation isn't yet supported by sof. In this case you will either need to contact the manufacturer or wait for sof to catch up on support for your
+particular card.
 
 ## Installation
 **WARNING** - *You are about to install a new kernel from the unstable branch of Debian. This may render your system unusable if something doesn't
